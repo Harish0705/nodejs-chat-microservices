@@ -33,18 +33,17 @@ export const registerUser = async (req: Request, res: Response) => {
 
 export const loginUser = async (req: Request, res: Response) => {
   const { email, password } = req?.body;
-  console.log(req.body)
   if (!email || !password)
     throw new BadRequestError("Please provide the required fields");
   const user = await User.findOne({ email });
-  console.log(user)
   if (!user) throw new UnauthenticatedError("Invalid user credentials");
 
   const isPasswordCorrect = await user.comparePassword(password);
   if (!isPasswordCorrect) throw new UnauthenticatedError("Incorrect password");
   const tokenPayload = {
+    id:user._id,
     name: user.name,
-    id:user._id
+    email: user.email
   }
   await createCookie(res, tokenPayload!);
   res.status(StatusCodes.OK).json({ message: "cookie set" });

@@ -1,20 +1,20 @@
 import { Response } from "express";
 import jwt from "jsonwebtoken";
-import { IUser } from "../database";
 import config from "../config/config";
 
 const jwtSecret = config.JWT_SECRET as string;
 
 interface ReqUser {
-  name: string,
-  id:unknown, 
+  id: string;
+  name: string;
+  email: string;
 }
 
 export const createCookie = async (res: Response, user: ReqUser) => {
-  const { name, id } = user;
-  const accessToken = jwt.sign({ name, id }, jwtSecret, {
+  const { id, name, email } = user;
+  const accessToken = jwt.sign({ id, name, email }, jwtSecret, {
     expiresIn: config.JWT_LIFETIME,
-  })
+  });
 
   const accessTokenExpiryTime = 1000 * 60 * 60 * 24;
   res.cookie("accessToken", accessToken, {
@@ -25,5 +25,5 @@ export const createCookie = async (res: Response, user: ReqUser) => {
   });
 };
 
-export const verifyAccessToken = (authToken:string) =>
+export const verifyAccessToken = (authToken: string) =>
   jwt.verify(authToken, jwtSecret);

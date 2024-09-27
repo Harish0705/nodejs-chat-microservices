@@ -14,7 +14,7 @@ app.use(express.json());
 app.use(cookieParser(process.env.JWT_SECRET));
 
 // routes
-app.use("/api/v1/auth", authRouter);
+app.use(authRouter);
 
 app.use(notFound);
 app.use(errorHandlerMiddleware);
