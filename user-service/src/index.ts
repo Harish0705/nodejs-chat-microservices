@@ -6,6 +6,7 @@ import { connectDB } from "./database";
 import { notFound } from "./middleware/notFound";
 import { errorHandlerMiddleware } from "./middleware/errorHandler";
 import authRouter from "./routes/authRoutes";
+import { rabbitMQService } from "./services/RabbitMQService";
 
 const app = express();
 
@@ -18,6 +19,16 @@ app.use("/api/v1/auth", authRouter);
 app.use(notFound);
 app.use(errorHandlerMiddleware);
 
+const initializeRabbitMQClient = async () => {
+  try {
+      await rabbitMQService.init();
+      console.log("RabbitMQ client initialized and listening for messages.");
+  } catch (err) {
+      console.error("Failed to initialize RabbitMQ client:", err);
+  }
+};
+
+initializeRabbitMQClient();
 
 const start = async () => {
   try {
