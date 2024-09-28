@@ -50,7 +50,8 @@ class RabbitMQService {
         receiverId: string,
         messageContent: string,
         senderEmail: string,
-        senderName: string
+        senderName: string,
+        fcmToken: string
     ) {
         await this.requestUserDetails(receiverId, async (user: any) => {
             const notificationPayload = {
@@ -60,7 +61,9 @@ class RabbitMQService {
                 message: messageContent,
                 from: senderEmail,
                 fromName: senderName,
+                fcmToken
             };
+            console.log(notificationPayload);
 
             try {
                 await this.channel.assertQueue(config.queue.notifications);

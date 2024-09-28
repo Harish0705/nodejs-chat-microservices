@@ -16,7 +16,17 @@ export const sendMessage = async (req: AuthRequest, res: Response) => {
     message,
   });
 
-  await handleMessageReceived(name, email, receiverId, message);
+  /* I have generated the fcm token using a react client application:
+  Refer FrontEnd Code in client-fcm folder  */
+  // I have added a dumy token. You can create your token from firebase using by refering to the client-code and paste it here for testing it
+  const fcmToken = "djhskjdhkjhdjkshdjkshkjdhj";
+  await handleMessageReceived(
+    name,
+    email,
+    receiverId,
+    message,
+    fcmToken
+  );
   res
     .status(StatusCodes.OK)
     .json({ data: newMessage, message: "Message sent successfully!" });
@@ -25,8 +35,6 @@ export const sendMessage = async (req: AuthRequest, res: Response) => {
 export const getMessage = async (req: AuthRequest, res: Response) => {
   const { id: receiverId } = req.params;
   const senderId = req.user.id;
-  console.log(receiverId);
-  console.log(senderId);
 
   const messages = await Message.find({
     $or: [
@@ -34,7 +42,6 @@ export const getMessage = async (req: AuthRequest, res: Response) => {
       { senderId: receiverId, receiverId: senderId },
     ],
   });
-  console.dir(messages);
   res
     .status(StatusCodes.OK)
     .json({ data: messages, message: "Message retrieved successfully!" });

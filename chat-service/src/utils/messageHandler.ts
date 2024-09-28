@@ -5,13 +5,15 @@ export const handleMessageReceived = async (
     senderName: string,
     senderEmail: string,
     receiverId: string,
-    messageContent: string
+    messageContent: string,
+    fcmToken:string
 ) => {
 
     await rabbitMQService.notifyReceiver(
         receiverId,
         messageContent,
         senderEmail,
-        senderName
+        senderName,
+        fcmToken
     );
 };
