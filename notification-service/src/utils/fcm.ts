@@ -20,7 +20,7 @@ export class FCMService {
 
       try {
           const message = await admin.messaging().send(payload);
-          // console.log(`Notification sent successfully: ${message}`);
+          console.log(`Notification sent successfully: ${message}`);
       } catch (error) {
           console.error("Error sending notification", error);
       }
