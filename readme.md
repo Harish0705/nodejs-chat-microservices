@@ -14,3 +14,5 @@ __notification-service__: Used RabbitMq to consume the notification details from
 __api-gateway__: Act as the gateway to route the users to different services. 
 
 __client-fcm__ : A react client for generating firebace cloud messaging token and use it in the chat service to send to the notification queue for testing push notification.
+
+Referred this tutorial for this project: https://dev.to/davydocsurg/mastering-microservices-a-hands-on-tutorial-with-nodejs-rabbitmq-nginx-and-docker-m4f
